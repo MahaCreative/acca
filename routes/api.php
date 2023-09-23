@@ -17,3 +17,4 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('get-data', [ApiController::class, 'index']);
+Route::post('belum-masuk', [ApiController::class, 'belumMasuk']);

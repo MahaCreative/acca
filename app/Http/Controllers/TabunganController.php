@@ -62,7 +62,7 @@ class TabunganController extends Controller
                 'jumlah' => $request->nominal,
                 'waktu_menabung' => now()->format('Y-m-d H:i:s'),
                 'keterangan' => $request->keterangan,
-                'status_masuk' => 'uang belum masuk',
+                'status_masuk' => 'menunggu dimasukkan',
             ]);
 
 
