@@ -62,25 +62,13 @@ class TabunganController extends Controller
                 'jumlah' => $request->nominal,
                 'waktu_menabung' => now()->format('Y-m-d H:i:s'),
                 'keterangan' => $request->keterangan,
+                'status_masuk' => 'uang belum masuk',
             ]);
-            $pesan = [
-                'detail' => $detail,
-            ];
-            $pesan_json = json_encode($pesan);
-            MQTT::publish('tambah_tabungan', $pesan_json);
+
+
+            MQTT::publish('tambah_tabungan', $detail);
             // Pindahkan ini ke methode api
-            if (($tabungan->tabungan_terkumpul + $detail->jumlah) >= $tabungan->target_tabungan) {
-                $tabungan->update([
-                    'tabungan_terkumpul' => $tabungan->tabungan_terkumpul + $detail->jumlah,
-                    'tanggal_tercapai' => now()->format('Y-m-d H:i:s'),
-                    'status_tabungan' => 'tercapai',
-                ]);
-                return redirect()->back()->with('success', true);
-            } else {
-                $tabungan->update([
-                    'tabungan_terkumpul' => $tabungan->tabungan_terkumpul + $detail->jumlah,
-                ]);
-            }
+
         } else {
             $request->validate([
                 'nominal' => 'required|numeric|min:1000|max:' . $tabungan->target_tabungan,
