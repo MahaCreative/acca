@@ -28,4 +28,13 @@ class ApiController extends Controller
             ]);
         }
     }
+
+    public function belumMasuk(Request $request)
+    {
+        $tabungan = TabunganTarget::findOrFail($request->tabungan_target_id);
+        $detail = DetailTabungan::findOrFail($request->id);
+        $detail->update([
+            'status_masuk' => 'uang belum masuk',
+        ]);
+    }
 }
