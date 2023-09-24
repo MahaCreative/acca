@@ -17,7 +17,11 @@ class TabunganController extends Controller
 
     public function show(Request $request, $id)
     {
-        $tabungan = TabunganTarget::with('detailTabungan', 'penarikan')->findOrFail($id);
+        $tabungan = TabunganTarget::with(['detailTabungan' => function ($q) {
+            $q->latest()->get();
+        }, 'penarikan' => function ($q) {
+            $q->latest()->get();
+        }])->findOrFail($id);
 
         return inertia('Tabungan/Show', compact('tabungan'));
     }
@@ -77,6 +81,7 @@ class TabunganController extends Controller
             if (($tabungan->tabungan_terkumpul - $request->jumlah) < 0) {
                 return redirect()->back();
             } else {
+                MQTT::publish('BukaTabungan', $request->nominal);
                 $tarik = Penarikan::create([
                     'tabungan_target_id' => $tabungan->id,
                     'jumlah' => $request->nominal,
@@ -92,7 +97,11 @@ class TabunganController extends Controller
 
     public function showTercapai($id)
     {
-        $tabungan = TabunganTarget::with('detailTabungan', 'penarikan')->findOrFail($id);
+        $tabungan = TabunganTarget::with(['detailTabungan' => function($q){
+            $q->latest()->get();
+        }, 'penarikan' => function($q){
+            $q->latest()->get();
+        }])->findOrFail($id);
 
         return inertia('Tabungan/ShowSelesai', compact('tabungan'));
     }

@@ -21,7 +21,6 @@ class ApiController extends Controller
                 'tanggal_tercapai' => now()->format('Y-m-d H:i:s'),
                 'status_tabungan' => 'tercapai',
             ]);
-            dd($tabungan);
         } else {
             $tabungan->update([
                 'tabungan_terkumpul' => $tabungan->tabungan_terkumpul + $detail->jumlah,
@@ -31,10 +30,17 @@ class ApiController extends Controller
 
     public function belumMasuk(Request $request)
     {
+
         $tabungan = TabunganTarget::findOrFail($request->tabungan_target_id);
         $detail = DetailTabungan::findOrFail($request->id);
         $detail->update([
             'status_masuk' => 'uang belum masuk',
         ]);
+    }
+
+    public function getTarget(Request $request)
+    {
+        $tabungan = TabunganTarget::where('status_tabungan', 'belum tercapai')->latest()->first();
+        return $tabungan;
     }
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('jumlah');
             $table->dateTime('waktu_menabung');
             $table->string('keterangan')->nullable();
+            $table->string('jenis_tabungan')->default('android');
             $table->string('status_masuk')->default('uang belum masuk');
             $table->timestamps();
         });

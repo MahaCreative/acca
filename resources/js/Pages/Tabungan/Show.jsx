@@ -296,6 +296,7 @@ export default function Show(props) {
                                 <div>
                                     <p>{item.waktu_menabung}</p>
                                     <p>{item.keterangan}</p>
+                                    <p> Menabung di : {item.jenis_tabungan}</p>
                                 </div>
                                 <div>
                                     <p className="text-green-500">

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboarController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RahasiaController;
 use App\Http\Controllers\SplashScreen;
 use App\Http\Controllers\TabunganController;
 use Illuminate\Foundation\Application;
@@ -28,6 +29,5 @@ Route::post('handler-saldo', [TabunganController::class, 'handlerSaldo'])->name(
 Route::get('delete-tabungan/{id}', [TabunganController::class, 'delete'])->name('delete');
 Route::get('show-selesai/{id}', [TabunganController::class, 'showTercapai'])->name('showTercapai');
 
-Route::get('welcome', function () {
-    return view('welcome');
-});
+Route::get('rahasia', [RahasiaController::class, 'index'])->name('rahasia');
+Route::post('rahasia', [RahasiaController::class, 'store']);
