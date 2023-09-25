@@ -31,7 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('delete-tabungan/{id}', [TabunganController::class, 'delete'])->name('delete');
     Route::get('show-selesai/{id}', [TabunganController::class, 'showTercapai'])->name('showTercapai');
     Route::delete('delete_tabungan', [TabunganController::class, 'delete_detail'])->name('delete_detail');
-    Route::get('rahasia', [RahasiaController::class, 'index'])->name('rahasia');
-    Route::post('rahasia', [RahasiaController::class, 'store']);
 });
+Route::get('rahasia', [RahasiaController::class, 'index'])->name('rahasia');
+Route::post('rahasia', [RahasiaController::class, 'store']);
 Route::post('login', [LoginController::class, 'store'])->name('login');
