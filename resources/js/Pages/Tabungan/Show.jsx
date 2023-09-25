@@ -1,5 +1,5 @@
 import Guest from "@/Layouts/GuestLayout";
-import { Link, useForm, usePage } from "@inertiajs/react";
+import { Link, router, useForm, usePage } from "@inertiajs/react";
 import React, { useEffect, useState } from "react";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
@@ -65,9 +65,11 @@ export default function Show(props) {
             setModalSuccess(true);
         }
     }, [session]);
-    console.log(session);
+    const deleteItem = (item) => {
+        router.delete(route("delete_detail"), { data: item });
+    };
     return (
-        <div className="font-sans font-medium relative">
+        <div className=" font-sans font-medium relative">
             <Dialogs
                 open={openModal}
                 onClose={setOpenModal}
@@ -291,7 +293,7 @@ export default function Show(props) {
                         tabungan.detail_tabungan.map((item, key) => (
                             <div
                                 key={key}
-                                className="px-4 py-2 border-b border-gray-400/50 flex justify-between items-center"
+                                className="relative px-4 py-2 border-b border-gray-400/50 flex justify-between items-center"
                             >
                                 <div>
                                     <p>{item.waktu_menabung}</p>
@@ -312,6 +314,14 @@ export default function Show(props) {
                                         </p>
                                     )}
                                 </div>
+                                {item.status_masuk == "uang belum masuk" && (
+                                    <div
+                                        onClick={() => deleteItem(item)}
+                                        className="bg-red-500 active:bg-red-700 py-1 rounded-lg px-1 inline-block text-white"
+                                    >
+                                        <DeleteForeverIcon color="inherit" />
+                                    </div>
+                                )}
                             </div>
                         ))}
                     {statusLihat == "kekurangan" &&
@@ -328,7 +338,7 @@ export default function Show(props) {
                             </div>
                         ))}
                 </div>
-                <div className="absolute bottom-5 right-5">
+                <div className="fixed bottom-2 right-5">
                     <button
                         onClick={() => setOpenModal(true)}
                         className="text-xl bg-gray-500 py-1 px-3 rounded-md text-white active:bg-gray-800"

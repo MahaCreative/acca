@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetailTabungan;
 use App\Models\Penarikan;
 use App\Models\TabunganTarget;
 use Illuminate\Http\Request;
@@ -97,12 +98,19 @@ class TabunganController extends Controller
 
     public function showTercapai($id)
     {
-        $tabungan = TabunganTarget::with(['detailTabungan' => function($q){
+        $tabungan = TabunganTarget::with(['detailTabungan' => function ($q) {
             $q->latest()->get();
-        }, 'penarikan' => function($q){
+        }, 'penarikan' => function ($q) {
             $q->latest()->get();
         }])->findOrFail($id);
 
         return inertia('Tabungan/ShowSelesai', compact('tabungan'));
+    }
+
+    public function delete_detail(Request $request)
+    {
+        $detail = DetailTabungan::findOrFail($request->id);
+        $detail->delete();
+        return redirect()->back();
     }
 }
