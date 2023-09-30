@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TabunganEvents;
 use App\Models\TabunganTarget;
 use Illuminate\Http\Request;
 use PhpMqtt\Client\Facades\MQTT;
@@ -39,5 +40,6 @@ class RahasiaController extends Controller
         } else {
             MQTT::publish('gagalTabungManual', $request->data);
         }
+        broadcast(new TabunganEvents())->toOthers();
     }
 }

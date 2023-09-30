@@ -47,12 +47,16 @@ export default function Show(props) {
                 } else {
                     post(route("handlerSaldo"), {
                         onSuccess: setOpenModal(false),
+                        preserveScroll: true,
+                        preserveState: true,
                     });
                 }
             }
         } else {
             post(route("handlerSaldo"), {
                 onSuccess: setOpenModal(false),
+                preserveScroll: true,
+                preserveState: true,
             });
         }
     };
@@ -66,8 +70,15 @@ export default function Show(props) {
         }
     }, [session]);
     const deleteItem = (item) => {
-        router.delete(route("delete_detail"), { data: item });
+        router.delete(route("delete_detail"), {
+            data: item,
+            preserveState: true,
+            preserveScroll: true,
+        });
     };
+    Echo.channel("tabungan").listen("TabunganEvents", (e) => {
+        router.reload({ preserveScroll: true, preserveState: true });
+    });
     return (
         <div className=" font-sans font-medium relative">
             <Dialogs

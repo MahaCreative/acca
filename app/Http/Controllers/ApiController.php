@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TabunganEvents;
 use App\Models\DetailTabungan;
 use App\Models\TabunganTarget;
 use Illuminate\Http\Request;
@@ -26,6 +27,8 @@ class ApiController extends Controller
                 'tabungan_terkumpul' => $tabungan->tabungan_terkumpul + $detail->jumlah,
             ]);
         }
+
+        broadcast(new TabunganEvents())->toOthers();
     }
 
     public function belumMasuk(Request $request)
@@ -36,11 +39,13 @@ class ApiController extends Controller
         $detail->update([
             'status_masuk' => 'uang belum masuk',
         ]);
+        broadcast(new TabunganEvents())->toOthers();
     }
 
     public function getTarget(Request $request)
     {
         $tabungan = TabunganTarget::where('status_tabungan', 'belum tercapai')->latest()->first();
+        broadcast(new TabunganEvents())->toOthers();
         return $tabungan;
     }
 }
