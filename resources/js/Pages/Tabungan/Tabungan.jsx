@@ -120,7 +120,7 @@ export default function Tabungan() {
                                 <TextField
                                     onChange={handleChange}
                                     className="border-none outline-none w-full active:outline-none"
-                                    label="Nama Tabungan"
+                                    label="Jumlah Tabungan"
                                     variant="outlined"
                                     name="jumlah_tabungan"
                                     type="number"
