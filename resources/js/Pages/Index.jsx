@@ -56,7 +56,6 @@ export default function Index() {
             <div className="text-center">
                 <img src="./splash.png" alt="" />
                 <p>TABUNGAN PINTAR</p>
-                <p>Berbasis IOT</p>
                 <div className="absolute bottom-5 left-0 w-full flex items-center justify-center">
                     <div
                         onClick={() => setDialog(true)}
